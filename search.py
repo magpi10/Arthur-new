@@ -47,16 +47,6 @@ def find_date(description):
     return new_date
 
 
-def find_last_updated(update_date):
-    day = re.search("\d+", update_date).group()
-    month = re.search("([A-Z])\w+", update_date).group()
-    year = re.search("\d\d\d\d", update_date).group()
-    month = months[month]
-
-    date = datetime.datetime(int(year), month, int(day))
-    return date
-
-
 def find_duration(description):
     duration = re.search("\d+ ([a-z])\w+", description).group()
     time = int(re.search("\d+", duration).group())

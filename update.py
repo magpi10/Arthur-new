@@ -36,16 +36,3 @@ def update_next_pass():
             break
 
     return [next_pass, next_pass_duration]
-
-
-def last_updated_check():
-    iss = ET.parse("iss.xml")
-    root = iss.getroot()
-
-    for x in root[0]:
-        for y in x:
-            if y.tag == "pubDate":
-                date = search.find_last_updated(y.text)
-                break
-
-    return date

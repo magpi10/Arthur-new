@@ -2,7 +2,6 @@ import datetime
 import update
 import RPi.GPIO as GPIO
 from time import sleep, mktime
-import search
 
 url = "https://spotthestation.nasa.gov/sightings/xml_files/South_Africa_None_Johannesburg.xml"
 led = 14
@@ -21,15 +20,8 @@ while True:
     time_allowance = datetime.timedelta(seconds=1)
 
     if next_pass[0] == "":
-        last_update = update.last_updated_check()
-
-        now_unix = mktime(datetime.datetime.now().timetuple())
-        last_update_unix = mktime(last_update.timetuple())
-
-        time_to_next_update = 1209600 - (now_unix - last_update_unix)
-
-        print(str(time_to_next_update), f"at {datetime.datetime.now()}")
-        sleep(time_to_next_update)
+        print("Waiting a day...")
+        sleep(86400)
         update.update_xml(url)
         continue
 
@@ -38,7 +30,9 @@ while True:
         next_pass_unix = mktime(next_pass[0].timetuple())
         time_to_next_pass = next_pass_unix - now_unix
 
-        print(str(time_to_next_pass),  f"at {datetime.datetime.now()}")
+        print(str(time_to_next_pass),  f"at {datetime.datetime.now()}\n"
+                                       f"The pass will occur at {next_pass[0]} and will happen for {next_pass[1] // 60}"
+                                       f" minutes")
         sleep(time_to_next_pass)
 
     now = datetime.datetime.now()
